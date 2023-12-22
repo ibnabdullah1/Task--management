@@ -26,6 +26,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Send a ping to confirm a successful connection
+
+    const taskCollection = client.db("TaskManagementDB").collection("tasks");
+
+    app.post("/tasks", async (req, res) => {
+      const task = req.body;
+      const result = await taskCollection.insertOne(task);
+      res.send(result);
+    });
+    app.get("/tasks/:email", async (req, res) => {
+      const email = await req.params.email;
+      const result = await taskCollection.find({ userEmail: email }).toArray();
+      res.send(result);
+    });
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"

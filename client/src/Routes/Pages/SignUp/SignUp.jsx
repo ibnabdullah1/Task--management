@@ -44,7 +44,6 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
-
       console.log(result);
       navigate(from, { replace: true });
       toast.success("Login successfully");
